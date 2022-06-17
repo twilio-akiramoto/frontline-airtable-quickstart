@@ -41,25 +41,15 @@ exports.handler = async (context, event, callback) => {
               console.log(customerId, displayName, customerNumber, customerEmail)
               const segment = async (customerId, displayName, customerNumber, customerEmail) => {
                 console.log('Running segment update for ', displayName)
-                analytics.identify('1', {
-                  // traits: {
-                  //   name: 'Joe Clair',
-                  //   phone: '+14697348516',
-                  //   email: 'joeclair@email.com'
-                  // }
-                // analytics.identify(`${customerId}`, {
-                //   traits: {
-                //     name: displayName,
-                //     phone: customerNumber,
-                //     email: customerEmail
-                //   }
-                  // userId: '1',
-                  // traits: {
-                  //   name: 'Joe Clair',
-                  //   phone: '+14697348516',
-                  //   email: 'joeclair@email.com'
-                  // }
+                analytics.identify({
+                  userId: customerId,
+                  traits: {
+                    name: displayName,
+                    phone: customerNumber,
+                    email: customerEmail
+                  }
                 })
+                analytics.flush()
               }
               segment(customerId, displayName, customerNumber, customerEmail)
             })
