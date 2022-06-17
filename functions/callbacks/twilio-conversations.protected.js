@@ -84,9 +84,130 @@ exports.handler = async function (context, event, callback) {
 
       break
     }
-
-    default: {
-      callback(new Error(`422 Unknown event type: ${eventType}`))
+    case 'onMessageAdd': {
+      /* PRE-WEBHOOK
+             * This webhook will be called when a message added to a conversation
+             * More info about the `onParticipantAdded` webhook: https://www.twilio.com/docs/conversations/conversations-webhooks#onconversationadd
+             */
+      const customerNumber = event.Author
+      const MessageBody = event.Body
+      const ConversationSID = event.ConversationSid
+      const axios = require('axios')
+      console.log(JSON.stringify(event))
+      console.log('Customer is:', customerNumber)
+      console.log('Message body is:', MessageBody)
+      console.log('ConversationSID is:', ConversationSID)
+      /* SALES WORDS DETECTION
+      * Detecting sales keywords on the conversations
+      */
+      const keyWords = [
+        {
+          name: 'close',
+          value: 9
+        },
+        {
+          name: 'deal',
+          value: 4
+        },
+        {
+          name: 'buy',
+          value: 8
+        },
+        {
+          name: 'finance',
+          value: 5
+        },
+        {
+          name: 'purchase',
+          value: 7
+        },
+        {
+          name: 'contract',
+          value: 2.5
+        },
+        {
+          name: 'buying',
+          value: 6
+        },
+        {
+          name: 'opportunity',
+          value: 3.5
+        },
+        {
+          name: 'interest',
+          value: 3
+        },
+        {
+          name: 'decided',
+          value: 7.5
+        },
+        {
+          name: 'money',
+          value: 4.5
+        },
+        {
+          name: 'ready',
+          value: 8
+        },
+        {
+          name: 'hot',
+          value: 8
+        },
+        {
+          name: 'interested',
+          value: 2
+        }
+      ]
+      checkForKeyWord(MessageBody, keyWords, customerNumber)
+      function checkForKeyWord (message, word, phone) {
+        let count = 0
+        for (let i = 0; i < word.length; i++) {
+          if (message.indexOf(word[i].name) > -1) {
+            // eslint-disable-next-line no-unused-vars
+            ++count
+            const msg = 'keyword ' + word[i].name + ' is in string'
+            console.log(msg)
+            console.log(word[i].name + ': ' + word[i].value)
+            const sendToSegment = {
+              phone: phone,
+              keyword: word[i].name,
+              value: word[i].value
+            }
+            console.log('Send to Segment: ', sendToSegment)
+            const createNotification = async (sendToSegment) => {
+              try {
+                const res = await axios.post(context.SEGMENT_SOURCE_KEYWORD_DETECTED, sendToSegment)
+                console.log(`Status: ${res.status}`)
+                console.log(sendToSegment)
+              } catch (err) {
+                console.error(err)
+              }
+            }
+            createNotification(sendToSegment)
+          }
+        }
+      }
+      //
+      const sendMessageToSegment = {
+        phone: customerNumber,
+        message: MessageBody,
+        conversationsid: ConversationSID
+      }
+      await axios.post(context.SEGMENT_SOURCE_MESSAGES_EXCHANGED, sendMessageToSegment)
+        .then((res) => {
+          console.log('Status: ', res.status)
+          console.log('Body: ', res.data)
+        }).catch((err) => {
+          console.error(err)
+        })
+      //
+      function delay (time) {
+        return new Promise(resolve => setTimeout(resolve, time))
+      }
+      delay(3000).then(() => console.log('3 seconds passed'))
+      //
+      callback(null, { body: MessageBody })
+      break
     }
   }
 }
