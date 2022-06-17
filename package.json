@@ -1,7 +1,7 @@
 {
   "name": "frontline-quick-deploy",
   "version": "1.0.0",
-  "description": "",
+  "description": "![Twilio Frontline Integrations Service](https://user-images.githubusercontent.com/1418949/156482434-bda73f12-b1c1-4876-9177-0367751f6ff5.png)",
   "main": "index.js",
   "scripts": {
     "start": "twilio-run",
@@ -12,10 +12,15 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@segment/analytics-next": "^1.38.0",
     "@twilio/runtime-handler": "1.2.1",
     "airtable": "^0.11.2",
-    "axios": "^0.26.0",
-    "twilio": "^3.75.0",
+    "analytics-node-serverless": "^3.4.0-beta.1",
+    "axios": "^0.26.1",
+    "needle": "^3.1.0",
+    "request": "^2.88.2",
+    "runtime": "^0.14.1",
+    "twilio": "^3.77.1",
     "twilio-run": "^3.4.1"
   },
   "devDependencies": {
@@ -27,5 +32,13 @@
     "node-fetch": "^2.6.7",
     "opn": "^6.0.0",
     "prompts": "^2.4.2"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cweems/frontline-airtable-quickstart.git"
+  },
+  "bugs": {
+    "url": "https://github.com/cweems/frontline-airtable-quickstart/issues"
+  },
+  "homepage": "https://github.com/cweems/frontline-airtable-quickstart#readme"
 }
