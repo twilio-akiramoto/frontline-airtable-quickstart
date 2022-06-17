@@ -102,51 +102,5 @@ exports.handler = async (context, event, callback) => {
       callback(new Error(`422 Unknown eventType: ${eventType}`))
     }
   }
-//   switch (eventType) {
-//     case 'identify': {
-//       // const updateObj = JSON.stringify(event.traits)
-//       console.log('detected identify')
-//       const booleanValue = event.traits.track_value_above_10
-//       console.log('Audience Track Value Above 10', booleanValue)
-//       if (booleanValue) {
-//         const updateObj = 'Buyer Readiness High'
-//         console.log(updateObj)
-//         console.log(filterFieldValue)
-//         updateAirtable(base, filterFieldValue, updateObj)
-//       }
-//       const numericalValue = event.traits.word_detection_sum
-//       console.log('Audience word_detection_sum', numericalValue)
-//       if (numericalValue > 20) {
-//         const updateObj = 'Buyer Readiness High - Value: ' + numericalValue
-//         console.log(updateObj)
-//         console.log(filterFieldValue)
-//         updateAirtable(base, filterFieldValue, updateObj)
-//       }
-//       break
-//     }
-//     case 'track': {
-//       console.log('detected track')
-//       const booleanValue = event.properties.users_two_messages_with_close
-//       console.log('Audience two messages with close', booleanValue)
-//       if (booleanValue) {
-//         const updateObj = 'Buyer Readiness High - 2 close messages'
-//         console.log(updateObj)
-//         console.log(filterFieldValue)
-//         updateAirtable(base, filterFieldValue, updateObj)
-//       }
-//       const numericalValue = event.properties.word_detection_sum
-//       if (numericalValue > 20) {
-//         const updateObj = 'Buyer Readiness High - Value: ' + numericalValue
-//         console.log(updateObj)
-//         console.log(filterFieldValue)
-//         updateAirtable(base, filterFieldValue, updateObj)
-//       }
-//       break
-//     }
-//     default: {
-//       console.log('Unknown eventType: ', eventType)
-//       callback(new Error(`422 Unknown eventType: ${eventType}`))
-//     }
-//   }
 }
 // https://segment.com/docs/personas/using-personas-data/#computed-trait-generated-events
