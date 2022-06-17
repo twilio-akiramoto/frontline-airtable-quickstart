@@ -9,6 +9,7 @@ exports.handler = async (context, event, callback) => {
       email: 'johnsmith@email.com'
     }
   })
+  analytics.flush()
   const customerNumber = '+19998887777'
   const MessageBody = 'I want to purchase and close this deal this week. Send me the contract, the finance. I have decided'
 
