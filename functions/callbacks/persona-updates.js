@@ -49,7 +49,7 @@ exports.handler = async (context, event, callback) => {
         })
         // Notify about status change
         console.log('success to update records for userId', filterFieldValue, 'note = ', updateObj)
-        const message = 'Readiness to buy status changed to High for ' + customerName
+        const message = 'Status Change: ' + updateObj + ' for ' + customerName
         sendSMSNotification(message)
       }
     }
@@ -66,12 +66,11 @@ exports.handler = async (context, event, callback) => {
         console.log(updateObj)
         console.log(filterFieldValue)
         updateAirtable(base, filterFieldValue, updateObj)
-        sendSMSNotification()
       }
-      const numericalValue = event.traits.sum_values
-      console.log('trait Sum Values', numericalValue)
-      if (numericalValue > 20) {
-        const updateObj = 'Buyer Readiness High - Value: ' + numericalValue
+      const booleanValueFinance = event.traits.customer_wants_finance
+      console.log('Audience Buyer Wants Finance', booleanValueFinance)
+      if (booleanValueFinance) {
+        const updateObj = 'Buyer wants finance'
         console.log(updateObj)
         console.log(filterFieldValue)
         updateAirtable(base, filterFieldValue, updateObj)
@@ -88,9 +87,9 @@ exports.handler = async (context, event, callback) => {
         console.log(filterFieldValue)
         updateAirtable(base, filterFieldValue, updateObj)
       }
-      const numericalValue = event.properties.sum_values
-      if (numericalValue > 20) {
-        const updateObj = 'Buyer Readiness High - Value: ' + numericalValue
+      const booleanValueFinance = event.properties.customer_wants_finance
+      if (booleanValueFinance) {
+        const updateObj = 'Buyer wants finance'
         console.log(updateObj)
         console.log(filterFieldValue)
         updateAirtable(base, filterFieldValue, updateObj)

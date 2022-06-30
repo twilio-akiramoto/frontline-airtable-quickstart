@@ -1,6 +1,6 @@
 exports.handler = async (context, event, callback) => {
-  const { AnalyticsBrowser } = require('@segment/analytics-next')
-  const analytics = AnalyticsBrowser.load({ writeKey: context.SEGMENT_WRITE_KEY })
+  const Analytics = require('analytics-node-serverless')
+  const analytics = new Analytics(context.SEGMENT_WRITE_KEY)
   analytics.identify({
     userId: '1000',
     traits: {
@@ -10,6 +10,7 @@ exports.handler = async (context, event, callback) => {
     }
   })
   analytics.flush()
+  
   const customerNumber = '+19998887777'
   const MessageBody = 'I want to purchase and close this deal this week. Send me the contract, the finance. I have decided'
 
